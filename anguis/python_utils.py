@@ -17,7 +17,7 @@ class LoggerWriter:
 
     def write(self, message):
         '''
-        Write method to generate clean output
+        Override write method to generate a clean output.
         '''
         self._msg = self._msg + message
         while '\n' in self._msg:
@@ -44,7 +44,8 @@ def setup_logging(snakemake):
                         format='[%(asctime)s]::%(levelname)s  %(message)s',
                         datefmt='%Y.%m.%d - %H:%M:%S')
 
-    # Check if script was called by snakemake, exit with exception otherwise
+    # Check if the Python script was called by snakemake,
+    # exit with an error message otherwise
     try:
         snakemake
     except NameError:
@@ -90,6 +91,8 @@ def touch(file_path, update_timestamp=True):
     Emulate the 'touch' unix command: create an empty file
     if the file does not exist, update the timestamp otherwise.
     Timestamp update can be disable with update_timestamp=False.
+    Return False if the file already existed, and True if the file
+    did not exist and was created.
     '''
     if os.path.exists(file_path):
         if update_timestamp:
@@ -136,7 +139,7 @@ def save_dict_to_json(output_file_path, data):
 
 def is_iterable(variable, exclude_strings=True):
     '''
-    Check if variable is an iterable, excluding strings by default
+    Check if a variable value is an iterable, excluding strings by default.
     '''
     if not isinstance(variable, collections.iterable):
         return False
